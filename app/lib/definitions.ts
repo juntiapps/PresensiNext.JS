@@ -9,11 +9,12 @@ export type User = {
   password: string;
 };
 
-export type Customer = {
+export type Employee = {
   id: string;
   name: string;
   email: string;
   image_url: string;
+  department: string;
 };
 
 export type Invoice = {
@@ -55,34 +56,30 @@ export type InvoicesTable = {
   status: 'pending' | 'paid';
 };
 
-export type CustomersTableType = {
+export type EmployeesTableType = {
   id: string;
   name: string;
   email: string;
   image_url: string;
-  total_invoices: number;
-  total_pending: number;
-  total_paid: number;
+  department_id: string;
 };
 
-export type FormattedCustomersTable = {
+export type FormattedEmployeesTable = {
   id: string;
   name: string;
   email: string;
   image_url: string;
-  total_invoices: number;
-  total_pending: string;
-  total_paid: string;
+  department_id: string;
 };
 
-export type CustomerField = {
+export type EmployeeField = {
   id: string;
   name: string;
 };
 
-export type InvoiceForm = {
+export type EmployeeForm = {
   id: string;
-  customer_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
+  department_id: string;
+  email: string;
+  name: string;
 };

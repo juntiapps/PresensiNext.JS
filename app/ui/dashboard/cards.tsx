@@ -4,28 +4,31 @@ import {
   UserGroupIcon,
   InboxIcon,
 } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+import { jakarta } from '@/app/ui/fonts';
+import { employees } from '@/app/lib/placeholder-data';
 
 const iconMap = {
-  collected: BanknotesIcon,
-  customers: UserGroupIcon,
-  pending: ClockIcon,
-  invoices: InboxIcon,
+  // collected: BanknotesIcon,
+  employees: UserGroupIcon,
+  // pending: ClockIcon,
+  // invoices: InboxIcon,
 };
 
 export default async function CardWrapper() {
+  // Simulating data fetching
+  const numberOfCustomers = employees.length; // Replace with actual data fetching logic
   return (
     <>
       {/* NOTE: Uncomment this code in Chapter 9 */}
 
       {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
       <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
       <Card
-        title="Total Customers"
+        title="Jumlah Pegawai"
         value={numberOfCustomers}
-        type="customers"
-      /> */}
+        type="employees"
+      />
     </>
   );
 }
@@ -37,7 +40,7 @@ export function Card({
 }: {
   title: string;
   value: number | string;
-  type: 'invoices' | 'customers' | 'pending' | 'collected';
+  type: 'employees' ;
 }) {
   const Icon = iconMap[type];
 
@@ -48,7 +51,7 @@ export function Card({
         <h3 className="ml-2 text-sm font-medium">{title}</h3>
       </div>
       <p
-        className={`${lusitana.className}
+        className={`${jakarta.className}
           truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}
       >
         {value}

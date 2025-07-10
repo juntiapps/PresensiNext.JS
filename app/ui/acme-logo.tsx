@@ -1,13 +1,22 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+import { MapPinIcon } from '@heroicons/react/24/outline';
+import { jakarta } from '@/app/ui/fonts';
+import Image from 'next/image';
 
 export default function AcmeLogo() {
   return (
     <div
-      className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
+      className={`${jakarta.className} flex flex-row items-center leading-none text-red-500`}
     >
-      <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" />
-      <p className="text-[44px]">Acme</p>
+      <Image
+        src="/icon.png"
+        width={50}
+        height={50}
+        alt="icon"
+      />
+      {/* <p className="text-[40px]">Presensi Next.JS</p> */}
+      <p className="text-[32px] sm:text-[40px] whitespace-nowrap sm:whitespace-normal">
+        Presensi Next.JS
+      </p>
     </div>
   );
 }
