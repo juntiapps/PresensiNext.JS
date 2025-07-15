@@ -173,7 +173,7 @@ export async function fetchEmployees() {
     //   FROM employees
     //   ORDER BY name ASC
     // `;
-    const response = await fetch('http://localhost:3000/api/employees');
+    const response = await fetch(process.env.BASE_URL + '/api/employees');
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
@@ -189,21 +189,21 @@ export async function fetchEmployees() {
 export async function fetchFilteredEmployees(query: string) {
   try {
     // const data = await sql<EmployeesTableType[]>`
-		// SELECT
-		//   users.id,
-		//   users.email,
-		//   employees.name,
-		//   employees.image_url,
+    // SELECT
+    //   users.id,
+    //   users.email,
+    //   employees.name,
+    //   employees.image_url,
     //   employees.department,
-		// FROM users
-		// LEFT JOIN employees ON user.id = employees.user_id
-		// WHERE
-		//   employees.name ILIKE ${`%${query}%`} OR
+    // FROM users
+    // LEFT JOIN employees ON user.id = employees.user_id
+    // WHERE
+    //   employees.name ILIKE ${`%${query}%`} OR
     //     employees.email ILIKE ${`%${query}%`} OR
     //       employees.department ILIKE ${`%${query}%`}
-		// ORDER BY employees.name ASC
-	  // `;
-    const response = await fetch('http://localhost:3000/api/employees');
+    // ORDER BY employees.name ASC
+    // `;
+    const response = await fetch(process.env.BASE_URL + '/api/employees');
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }

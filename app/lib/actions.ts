@@ -80,7 +80,7 @@ export async function createEmployee(prevState: State, formData: FormData) {
     };
 
     // employees.push(newEmployee);
-    await fetch('http://localhost:3000/api/employees', {
+    await fetch(process.env.BASE_URL+'/api/employees', {
       method: 'POST',
       body: JSON.stringify(newEmployee),
       headers: { 'Content-Type': 'application/json' }
@@ -134,7 +134,7 @@ export async function updateEmployee(
     //   SET name = ${name}
     //   WHERE id = (SELECT user_id FROM employees WHERE id = ${id})
     // `;
-    const response = await fetch(`http://localhost:3000/api/employees/${id}`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/employees/${id}`, {
       method: 'PUT',
       body: JSON.stringify({ name, department_id, email }),
       headers: { 'Content-Type': 'application/json' }
@@ -157,7 +157,7 @@ export async function updateEmployee(
 
 export async function deleteEmployee(id: string) {
   // await sql`DELETE FROM employees WHERE id = ${id}`;
-  const response = await fetch(`http://localhost:3000/api/employees/${id}`, {
+  const response = await fetch(`${process.env.BASE_URL}/api/employees/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' }
   });
