@@ -1,9 +1,8 @@
 import Form from '@/app/ui/employees/edit-form';
 import Breadcrumbs from '@/app/ui/employees/breadcrumbs';
-// import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { employees } from '@/app/lib/placeholder-data';
+import { departments, employees } from '@/app/lib/placeholder-data';
 
 export const metadata: Metadata = {
   title: 'Edit Pegawai',
@@ -12,11 +11,7 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-//   const [invoice, customers] = await Promise.all([
-//     fetchInvoiceById(id),
-//     fetchCustomers(),
-//   ]);
-    const employee = employees.find((employee) => employee.id === id);
+  const employee = employees.find((employee: any) => employee.id === id);
 
   if (!employee) {
     notFound();
@@ -34,7 +29,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <Form employee={employee}  />
+      <Form employee={employee} departments={departments} />
     </main>
   );
 }

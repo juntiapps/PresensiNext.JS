@@ -1,11 +1,8 @@
 import postgres from 'postgres';
 import {
   EmployeesTableType,
-  EmployeeField,
-  EmployeeForm,
-  InvoicesTable,
-  LatestInvoiceRaw,
-  Revenue,
+  // EmployeeField,
+  // EmployeeForm,
 } from './definitions';
 import { formatCurrency } from './utils';
 
@@ -167,15 +164,20 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 //   }
 // }
 
-export async function fetchEmployeess() {
+export async function fetchEmployees() {
   try {
-    const employees = await sql<EmployeeField[]>`
-      SELECT
-        id,
-        name
-      FROM employees
-      ORDER BY name ASC
-    `;
+    // const employees = await sql<EmployeeField[]>`
+    //   SELECT
+    //     id,
+    //     name
+    //   FROM employees
+    //   ORDER BY name ASC
+    // `;
+    const response = await fetch('http://localhost:3000/api/employees');
+    if (!response.ok) {
+      throw new Error('Failed to fetch employees');
+    }
+    const employees = await response.json();
 
     return employees;
   } catch (err) {
@@ -186,25 +188,34 @@ export async function fetchEmployeess() {
 
 export async function fetchFilteredEmployees(query: string) {
   try {
-    const data = await sql<EmployeesTableType[]>`
-		SELECT
-		  users.id,
-		  users.email,
-		  employees.name,
-		  employees.image_url,
-      employees.department,
-		FROM users
-		LEFT JOIN employees ON user.id = employees.user_id
-		WHERE
-		  employees.name ILIKE ${`%${query}%`} OR
-        employees.email ILIKE ${`%${query}%`} OR
-          employees.department ILIKE ${`%${query}%`}
-		ORDER BY employees.name ASC
-	  `;
+    // const data = await sql<EmployeesTableType[]>`
+		// SELECT
+		//   users.id,
+		//   users.email,
+		//   employees.name,
+		//   employees.image_url,
+    //   employees.department,
+		// FROM users
+		// LEFT JOIN employees ON user.id = employees.user_id
+		// WHERE
+		//   employees.name ILIKE ${`%${query}%`} OR
+    //     employees.email ILIKE ${`%${query}%`} OR
+    //       employees.department ILIKE ${`%${query}%`}
+		// ORDER BY employees.name ASC
+	  // `;
+    const response = await fetch('http://localhost:3000/api/employees');
+    if (!response.ok) {
+      throw new Error('Failed to fetch employees');
+    }
+    const data = await response.json();
 
-    const employees = data.map((employee) => ({
-      ...employee,
-    }));
+    const employees = data.filter((employee: EmployeesTableType) =>
+      employee.name.toLowerCase().includes(query.toLowerCase()),
+    );
+
+    // const employees = data.map((employee) => ({
+    //   ...employee,
+    // }));
 
     return employees;
   } catch (err) {

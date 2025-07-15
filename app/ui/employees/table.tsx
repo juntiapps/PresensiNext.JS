@@ -5,7 +5,7 @@ import {
   EmployeesTableType,
   FormattedEmployeesTable,
 } from '@/app/lib/definitions';
-import { UpdateEmployee } from './buttons';
+import { CreateEmployee, DeleteEmployee, UpdateEmployee } from './buttons';
 
 export default async function EmployeesTable({
   employees,
@@ -14,10 +14,6 @@ export default async function EmployeesTable({
 }) {
   return (
     <div className="w-full">
-      <h1 className={`${jakarta.className} mb-8 text-xl md:text-2xl`}>
-        Pegawai
-      </h1>
-      {/* <Search placeholder="Cari Pegawai..." /> */}
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -88,12 +84,12 @@ export default async function EmployeesTable({
                         {employee.email}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {employee.department_id}
+                        {employee.department_name}
                       </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
                           <UpdateEmployee id={employee.id} />
-                          {/* <DeleteInvoice id={employee.id} /> */}
+                          <DeleteEmployee id={employee.id} />
                         </div>
                       </td>
                     </tr>

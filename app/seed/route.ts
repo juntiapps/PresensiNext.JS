@@ -41,7 +41,7 @@ async function seedEmployees() {
 
   const insertedEmployees = await Promise.all(
     employees.map(
-      (employee) => sql`
+      (employee: any) => sql`
         INSERT INTO employees (department_id )
         VALUES (${employee.department_id})
         ON CONFLICT (id) DO NOTHING;
