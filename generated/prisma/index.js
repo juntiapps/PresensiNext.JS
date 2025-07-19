@@ -181,6 +181,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -207,8 +211,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String   @id @default(uuid()) @db.Uuid\n  email     String   @unique\n  password  String\n  role      Role     @relation(fields: [roleId], references: [id])\n  roleId    String   @db.Uuid\n  pegawai   Pegawai? // One-to-one ke Pegawai\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Pegawai {\n  id           String        @id @default(uuid()) @db.Uuid\n  nama         String\n  nip          String        @unique\n  user         User?         @relation(fields: [userId], references: [id])\n  userId       String?       @unique @db.Uuid\n  departemen   Departemen?   @relation(fields: [departemenId], references: [id])\n  departemenId String?       @db.Uuid\n  logPresensi  LogPresensi[]\n  createdAt    DateTime      @default(now())\n  updatedAt    DateTime      @updatedAt\n}\n\nmodel Departemen {\n  id        String    @id @default(uuid()) @db.Uuid\n  nama      String\n  pegawai   Pegawai[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel LogPresensi {\n  id        String  @id @default(uuid()) @db.Uuid\n  pegawai   Pegawai @relation(fields: [pegawaiId], references: [id])\n  pegawaiId String  @db.Uuid\n\n  waktuMasuk DateTime\n  latMasuk   Float\n  lngMasuk   Float\n\n  waktuPulang DateTime?\n  latPulang   Float?\n  lngPulang   Float?\n\n  createdAt DateTime @default(now())\n}\n\nmodel Role {\n  id    String @id @default(uuid()) @db.Uuid\n  nama  String @unique\n  users User[]\n}\n",
-  "inlineSchemaHash": "aae0b300efffe59076101e2dc159af9d17733139e498eb3b8a96f8106bc5aeb5",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String   @id @default(uuid()) @db.Uuid\n  email     String   @unique\n  password  String\n  role      Role     @relation(fields: [roleId], references: [id])\n  roleId    String   @db.Uuid\n  pegawai   Pegawai? // One-to-one ke Pegawai\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel Pegawai {\n  id           String        @id @default(uuid()) @db.Uuid\n  nama         String\n  nip          String        @unique\n  user         User?         @relation(fields: [userId], references: [id])\n  userId       String?       @unique @db.Uuid\n  departemen   Departemen?   @relation(fields: [departemenId], references: [id])\n  departemenId String?       @db.Uuid\n  logPresensi  LogPresensi[]\n  createdAt    DateTime      @default(now())\n  updatedAt    DateTime      @updatedAt\n}\n\nmodel Departemen {\n  id        String    @id @default(uuid()) @db.Uuid\n  nama      String\n  pegawai   Pegawai[]\n  createdAt DateTime  @default(now())\n  updatedAt DateTime  @updatedAt\n}\n\nmodel LogPresensi {\n  id        String  @id @default(uuid()) @db.Uuid\n  pegawai   Pegawai @relation(fields: [pegawaiId], references: [id])\n  pegawaiId String  @db.Uuid\n\n  waktuMasuk DateTime\n  latMasuk   Float\n  lngMasuk   Float\n\n  waktuPulang DateTime?\n  latPulang   Float?\n  lngPulang   Float?\n\n  createdAt DateTime @default(now())\n}\n\nmodel Role {\n  id    String @id @default(uuid()) @db.Uuid\n  nama  String @unique\n  users User[]\n}\n",
+  "inlineSchemaHash": "ec47be09db6cfed8361ef790f2137c0a3a5ca920367beb370c4d5def616a337e",
   "copyEngine": true
 }
 
@@ -249,6 +253,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "generated/prisma/schema.prisma")
