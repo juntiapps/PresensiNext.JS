@@ -1,11 +1,10 @@
 // app/api/users/route.ts
 
-import { FormattedEmployeesTable } from "@/app/lib/definitions";
-import { createPegawai, getAllPegawai } from "@/app/query/employee";
+import { createPeran, getAllPeran } from "@/app/query/roles";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-    const result = await getAllPegawai()
+    const result = await getAllPeran()
 
     return NextResponse.json(result, { status: 200 });
 }
@@ -14,16 +13,16 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        const createdEmployee = await createPegawai(body)
+        const createdPeran = await createPeran(body)
 
         return NextResponse.json(
-            { message: 'Product created successfully', data: createdEmployee },
+            { message: 'peran created successfully', data: createdPeran },
             { status: 201 } // Status 201 Created
         );
     } catch (error) {
-        console.error('Error creating product:', error);
+        console.error('Error creating peran:', error);
         return NextResponse.json(
-            { message: 'Failed to create product' },
+            { message: 'Failed to create v' },
             { status: 500 } // Status 500 Internal Server Error
         );
     }

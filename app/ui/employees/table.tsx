@@ -6,12 +6,16 @@ import {
   FormattedEmployeesTable,
 } from '@/app/lib/definitions';
 import { CreateEmployee, DeleteEmployee, UpdateEmployee } from './buttons';
+import { fetchFilteredEmployees } from '@/app/lib/data';
 
 export default async function EmployeesTable({
-  employees,
+  query,
 }: {
-  employees: FormattedEmployeesTable[];
+  query: any;
 }) {
+  // console.log('Employees:', employees);
+  const employees = await fetchFilteredEmployees(query);
+
   return (
     <div className="w-full">
       <div className="mt-6 flow-root">
@@ -31,16 +35,16 @@ export default async function EmployeesTable({
                             <Image
                               src={employee.image_url}
                               className="rounded-full"
-                              alt={`${employee.name}'s profile picture`}
+                              alt={`${employee.nama}'s profile picture`}
                               width={28}
                               height={28}
                             />
-                            <p>{employee.name}</p>
+                            <p>{employee.nama}</p>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-500">
+                        {/* <p className="text-sm text-gray-500">
                           {employee.email}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
 
@@ -54,12 +58,12 @@ export default async function EmployeesTable({
                       Nama
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
-                      Email
+                      Role
                     </th>
                     <th scope="col" className="px-3 py-5 font-medium">
                       Departemen
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
+                    <th scope="col" className="px-3 py-5 font-medium w-32">
                       Aksi
                     </th>
                   </tr>
@@ -73,18 +77,18 @@ export default async function EmployeesTable({
                           <Image
                             src={employee.image_url}
                             className="rounded-full"
-                            alt={`${employee.name}'s profile picture`}
+                            alt={`${employee.nama}'s profile picture`}
                             width={28}
                             height={28}
                           />
-                          <p>{employee.name}</p>
+                          <p>{employee.nama}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {employee.email}
+                        {employee.roleNama}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {employee.department_name}
+                        {employee.departemenNama}
                       </td>
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">

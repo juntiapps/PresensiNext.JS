@@ -7,50 +7,57 @@ import { UUID } from "crypto";
 // However, these types are generated automatically if you're using an ORM such as Prisma.
 export type User = {
   id: UUID;
-  name: string;
   email: string;
   password: string;
 };
 
 export type Employee = {
   id: UUID;
-  name: string;
+  nama: string;
   email: string;
   image_url: string;
-  department_id: UUID;
+  departemenId: UUID;
 };
 
 export type EmployeesTableType = {
   id: UUID;
-  name: string;
+  nama: string;
   email: string;
   image_url: string;
-  department_id: UUID;
+  departemenId: UUID;
   // department_name: string;
 };
 
+//used
 export type FormattedEmployeesTable = {
   id: UUID;
-  name: string;
-  email: string;
+  nama: string;
   image_url: string;
-  department_id: UUID;
-  department_name: string;
+  departemenNama: string;
+  roleNama: string;
 };
 
 export type EmployeeField = {
   id: UUID;
-  name: string;
+  nama: string;
 };
 
 export type EmployeeForm = {
   id: UUID;
-  department_id: UUID;
+  departemenId: UUID;
   email: string;
-  name: string;
+  nama: string;
+  nip: string;
+  image_url: string;
+  roleId: UUID;
 };
 
 export type DepartmentField = {
   id: UUID;
-  name: string;
+  nama: string;
+};
+
+export type RoleField = {
+  id: UUID;
+  nama: string;
 };

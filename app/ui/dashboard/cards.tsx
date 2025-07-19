@@ -1,32 +1,22 @@
 import {
-  BanknotesIcon,
-  ClockIcon,
   UserGroupIcon,
-  InboxIcon,
 } from '@heroicons/react/24/outline';
 import { jakarta } from '@/app/ui/fonts';
-import { employees } from '@/app/lib/placeholder-data';
+import { fetchEmployees } from '@/app/lib/data';
 
 const iconMap = {
-  // collected: BanknotesIcon,
   employees: UserGroupIcon,
-  // pending: ClockIcon,
-  // invoices: InboxIcon,
 };
 
 export default async function CardWrapper() {
   // Simulating data fetching
-  const numberOfCustomers = employees.length; // Replace with actual data fetching logic
+  const jumlahPegawai = await fetchEmployees(); // Replace with actual data fetching logic
+
   return (
     <>
-      {/* NOTE: Uncomment this code in Chapter 9 */}
-
-      {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" /> */}
       <Card
         title="Jumlah Pegawai"
-        value={numberOfCustomers}
+        value={jumlahPegawai?.count}
         type="employees"
       />
     </>

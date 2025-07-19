@@ -2,16 +2,22 @@ import Form from '@/app/ui/employees/edit-form';
 import Breadcrumbs from '@/app/ui/employees/breadcrumbs';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { departments, employees } from '@/app/lib/placeholder-data';
+import { fetchDepartments, fetchDetailEmployee, fetchRoles } from '@/app/lib/data';
+import { UUID } from 'crypto';
 
 export const metadata: Metadata = {
   title: 'Edit Pegawai',
 };
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+export default async function Page(props: { params: Promise<{ id: UUID }> }) {
   const params = await props.params;
   const id = params.id;
-  const employee = employees.find((employee: any) => employee.id === id);
+  // const employee = employees.find((employee: any) => employee.id === id);
+  const employee = await fetchDetailEmployee(id);
+  const departments = await fetchDepartments();
+  const roles = await fetchRoles();
+
+  // console.log('Employee:', employee);
 
   if (!employee) {
     notFound();
@@ -29,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <Form employee={employee} departments={departments} />
+      <Form employee={employee} departments={departments} roles={roles}/>
     </main>
   );
 }

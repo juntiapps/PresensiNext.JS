@@ -1,6 +1,6 @@
 // app/api/users/route.ts
 
-import { deletePegawai, getPegawaiById, updatePegawai } from "@/app/query/employee";
+import { deleteDepartemen, getDepartemenById, updateDepartemen } from "@/app/query/department";
 import { UUID } from "crypto";
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -8,10 +8,10 @@ export async function GET(request: NextRequest,
     { params }: { params: Promise<{ id: UUID }> }) {
     try {
         const id = (await params).id;
-        const result = await getPegawaiById(id);
+        const result = await getDepartemenById(id);
 
         if (!result) {
-            return NextResponse.json({ error: 'Employee not found' }, { status: 404 });
+            return NextResponse.json({ error: 'Departemen not found' }, { status: 404 });
         }
         return NextResponse.json(result, { status: 200 })
     } catch (error: any) {
@@ -25,24 +25,24 @@ export async function PUT(request: NextRequest,
 ) {
     try {
         const id = (await params).id;
-        const { nama, departemenId, email, roleId, nip } = await request.json();
+        const { nama } = await request.json();
 
-        const peg = await getPegawaiById(id);
-        if (!peg) {
-            return NextResponse.json({ error: 'Employee not found' }, { status: 404 });
+        const dep = await getDepartemenById(id);
+        if (!dep) {
+            return NextResponse.json({ error: 'Department not found' }, { status: 404 });
         }
 
-        const updatedEmployee = await updatePegawai(id, {
-            nama, departemenId, email, roleId, nip
+        const updatedDepartemen = await updateDepartemen(id, {
+            nama
         })
 
         return NextResponse.json(
-            { message: 'Employee updated successfully', data: updatedEmployee },
+            { message: 'Departemen updated successfully', data: updatedDepartemen },
             { status: 200 }
         );
     } catch (error: any) {
         console.error(error);
-        return NextResponse.json({ message: error.message || 'Failed to fetch pegawai.' }, { status: 500 });
+        return NextResponse.json({ message: error.message || 'Failed to update departemen.' }, { status: 500 });
     }
 }
 
@@ -51,11 +51,11 @@ export async function DELETE(request: NextRequest,
 ) {
     try {
         const id = (await params).id;
-        const deleted = await deletePegawai(id);
+        const deleted = await deleteDepartemen(id);
 
         return new NextResponse(null, { status: 204 });
     } catch (error: any) {
         console.error(error);
-        return NextResponse.json({ message: error.message || 'Failed to delete pegawai.' }, { status: 500 });
+        return NextResponse.json({ message: error.message || 'Failed to delete departemen.' }, { status: 500 });
     }
 }

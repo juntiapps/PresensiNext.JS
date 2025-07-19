@@ -1,185 +1,30 @@
-import postgres from 'postgres';
 import {
-  EmployeesTableType,
-  // EmployeeField,
-  // EmployeeForm,
+  EmployeeField,
+  EmployeeForm,
+  FormattedEmployeesTable,
 } from './definitions';
-import { formatCurrency } from './utils';
+import { UUID } from 'crypto';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
-
-// export async function fetchRevenue() {
-//   try {
-//     // Artificially delay a response for demo purposes.
-//     // Don't do this in production :)
-
-//     // console.log('Fetching revenue data...');
-//     // await new Promise((resolve) => setTimeout(resolve, 3000));
-
-//     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
-
-//     // console.log('Data fetch completed after 3 seconds.');
-
-//     return data;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch revenue data.');
-//   }
-// }
-
-// export async function fetchLatestInvoices() {
-//   try {
-//     const data = await sql<LatestInvoiceRaw[]>`
-//       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       ORDER BY invoices.date DESC
-//       LIMIT 5`;
-
-//     const latestInvoices = data.map((invoice) => ({
-//       ...invoice,
-//       amount: formatCurrency(invoice.amount),
-//     }));
-//     return latestInvoices;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch the latest invoices.');
-//   }
-// }
-
-// export async function fetchCardData() {
-//   try {
-//     // You can probably combine these into a single SQL query
-//     // However, we are intentionally splitting them to demonstrate
-//     // how to initialize multiple queries in parallel with JS.
-//     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
-//     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
-//     const invoiceStatusPromise = sql`SELECT
-//          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
-//          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
-//          FROM invoices`;
-
-//     const data = await Promise.all([
-//       invoiceCountPromise,
-//       customerCountPromise,
-//       invoiceStatusPromise,
-//     ]);
-
-//     const numberOfInvoices = Number(data[0][0].count ?? '0');
-//     const numberOfCustomers = Number(data[1][0].count ?? '0');
-//     const totalPaidInvoices = formatCurrency(data[2][0].paid ?? '0');
-//     const totalPendingInvoices = formatCurrency(data[2][0].pending ?? '0');
-
-//     return {
-//       numberOfCustomers,
-//       numberOfInvoices,
-//       totalPaidInvoices,
-//       totalPendingInvoices,
-//     };
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch card data.');
-//   }
-// }
-
-// const ITEMS_PER_PAGE = 6;
-// export async function fetchFilteredInvoices(
-//   query: string,
-//   currentPage: number,
-// ) {
-//   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-
-//   try {
-//     const invoices = await sql<InvoicesTable[]>`
-//       SELECT
-//         invoices.id,
-//         invoices.amount,
-//         invoices.date,
-//         invoices.status,
-//         customers.name,
-//         customers.email,
-//         customers.image_url
-//       FROM invoices
-//       JOIN customers ON invoices.customer_id = customers.id
-//       WHERE
-//         customers.name ILIKE ${`%${query}%`} OR
-//         customers.email ILIKE ${`%${query}%`} OR
-//         invoices.amount::text ILIKE ${`%${query}%`} OR
-//         invoices.date::text ILIKE ${`%${query}%`} OR
-//         invoices.status ILIKE ${`%${query}%`}
-//       ORDER BY invoices.date DESC
-//       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-//     `;
-
-//     return invoices;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch invoices.');
-//   }
-// }
-
-// export async function fetchInvoicesPages(query: string) {
-//   try {
-//     const data = await sql`SELECT COUNT(*)
-//     FROM invoices
-//     JOIN customers ON invoices.customer_id = customers.id
-//     WHERE
-//       customers.name ILIKE ${`%${query}%`} OR
-//       customers.email ILIKE ${`%${query}%`} OR
-//       invoices.amount::text ILIKE ${`%${query}%`} OR
-//       invoices.date::text ILIKE ${`%${query}%`} OR
-//       invoices.status ILIKE ${`%${query}%`}
-//   `;
-
-//     const totalPages = Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
-//     return totalPages;
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch total number of invoices.');
-//   }
-// }
-
-// export async function fetchInvoiceById(id: string) {
-//   try {
-//     const data = await sql<InvoiceForm[]>`
-//       SELECT
-//         invoices.id,
-//         invoices.customer_id,
-//         invoices.amount,
-//         invoices.status
-//       FROM invoices
-//       WHERE invoices.id = ${id};
-//     `;
-
-//     const invoice = data.map((invoice) => ({
-//       ...invoice,
-//       // Convert amount from cents to dollars
-//       amount: invoice.amount / 100,
-//     }));
-
-//     return invoice[0];
-//   } catch (error) {
-//     console.error('Database Error:', error);
-//     throw new Error('Failed to fetch invoice.');
-//   }
-// }
-
-export async function fetchEmployees() {
+//EMPLOYEES
+export async function fetchDetailEmployee(id: UUID) {
   try {
-    // const employees = await sql<EmployeeField[]>`
-    //   SELECT
-    //     id,
-    //     name
-    //   FROM employees
-    //   ORDER BY name ASC
-    // `;
-    const response = await fetch(process.env.BASE_URL + '/api/employees');
+    const response = await fetch(process.env.BASE_URL + '/api/employees/' + id);
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
-    const employees = await response.json();
+    const data = await response.json();
 
-    return employees;
+    const employee: EmployeeForm = {
+      id: data.id,
+      nama: data.nama,
+      nip: data.nip,
+      departemenId: data.departemen?.id || '',
+      email: data.user?.email || '',
+      image_url: data.image_url || '/customers/evil-rabbit.png', // Ensure image_url is always defined
+      roleId: data.user?.role?.id || '', // Ensure roleId is always defined
+    };
+
+    return employee;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all employees.');
@@ -188,38 +33,81 @@ export async function fetchEmployees() {
 
 export async function fetchFilteredEmployees(query: string) {
   try {
-    // const data = await sql<EmployeesTableType[]>`
-    // SELECT
-    //   users.id,
-    //   users.email,
-    //   employees.name,
-    //   employees.image_url,
-    //   employees.department,
-    // FROM users
-    // LEFT JOIN employees ON user.id = employees.user_id
-    // WHERE
-    //   employees.name ILIKE ${`%${query}%`} OR
-    //     employees.email ILIKE ${`%${query}%`} OR
-    //       employees.department ILIKE ${`%${query}%`}
-    // ORDER BY employees.name ASC
-    // `;
     const response = await fetch(process.env.BASE_URL + '/api/employees');
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
     const data = await response.json();
 
-    const employees = data.filter((employee: EmployeesTableType) =>
-      employee.name.toLowerCase().includes(query.toLowerCase()),
-    );
-
-    // const employees = data.map((employee) => ({
-    //   ...employee,
-    // }));
+    const employees: FormattedEmployeesTable[] = data.data.map((employee: any) => ({
+      id: employee.id,
+      nama: employee.nama,
+      departemenNama: employee.departemen?.nama || 'Unknown', // Ensure department_name is always a string
+      image_url: employee.image_url || '/customers/evil-rabbit.png',
+      roleNama: employee.user?.role?.nama // Ensure image_url is always defined
+    }));
 
     return employees;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer table.');
+  }
+}
+
+export async function fetchEmployees() {
+  try {
+    const response = await fetch(process.env.BASE_URL + '/api/employees');
+    if (!response.ok) {
+      throw new Error('Failed to fetch employees');
+    }
+    const data = await response.json();
+
+    const employees: EmployeeField[] = data.data.map((employee: any) => ({
+      id: employee.id,
+      nama: employee.nama,
+    }));
+
+    const count = data.count || employees.length;
+
+    const result = {
+      count: count,
+      data: employees,
+    };
+    return result;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch customer table.');
+  }
+}
+
+//DEPARTEMEN
+export async function fetchDepartments() {
+  try {
+    const response = await fetch(process.env.BASE_URL + '/api/departments');
+    if (!response.ok) {
+      throw new Error('Failed to fetch departments');
+    }
+    const employees = await response.json();
+
+    return employees;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all departments.');
+  }
+}
+
+//ROLES
+export async function fetchRoles() {
+  try {
+    const response = await fetch(process.env.BASE_URL + '/api/roles');
+    if (!response.ok) {
+      throw new Error('Failed to fetch roles');
+    }
+    const roles = await response.json();
+
+    return roles;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all roles.');
   }
 }

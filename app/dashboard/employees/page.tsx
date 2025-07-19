@@ -2,7 +2,9 @@ import { fetchFilteredEmployees } from '@/app/lib/data';
 import { CreateEmployee } from '@/app/ui/employees/buttons';
 import Table from '@/app/ui/employees/table';
 import { jakarta } from '@/app/ui/fonts';
+import { EmployeesTableSkeleton } from '@/app/ui/skeletons';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Daftar Pegawai',
@@ -17,7 +19,6 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
 
-  const employees = await fetchFilteredEmployees(query);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -26,7 +27,9 @@ export default async function Page(props: {
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <CreateEmployee />
       </div>
-      <Table employees={employees} />
+      <Suspense fallback={<EmployeesTableSkeleton />}>
+        <Table query={query} />
+      </Suspense>
     </div>
   );
 }
