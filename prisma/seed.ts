@@ -1,5 +1,5 @@
-// import { PrismaClient } from '@prisma/client'
-import {PrismaClient} from '../generated/prisma'
+import { PrismaClient } from '@prisma/client'
+// import {PrismaClient} from '../generated/prisma'
 import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()

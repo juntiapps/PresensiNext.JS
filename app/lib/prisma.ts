@@ -1,5 +1,6 @@
 // lib/prisma.ts atau utils/prisma.ts
-import { PrismaClient } from '../../generated/prisma'; // Sesuaikan path ini jika berbeda
+// import { PrismaClient } from '../../generated/prisma'; // Sesuaikan path ini jika berbeda
+import { PrismaClient } from '@prisma/client';
 
 declare global {
   // eslint-disable-next-line no-var
