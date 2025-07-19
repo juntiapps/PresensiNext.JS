@@ -50,7 +50,7 @@ export async function fetchFilteredEmployees(query: string) {
     return employees;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch customer table.');
+    throw new Error('Failed to fetch employee table.');
   }
 }
 
@@ -76,7 +76,7 @@ export async function fetchEmployees() {
     return result;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch customer table.');
+    throw new Error('Failed to fetch employee count table.');
   }
 }
 
