@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  password  String
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    String   @db.Uuid
+  pegawai   Pegawai? // One-to-one ke Pegawai
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pegawai {
+  id           String        @id @default(uuid()) @db.Uuid
+  nama         String
+  nip          String        @unique
+  user         User?         @relation(fields: [userId], references: [id])
+  userId       String?       @unique @db.Uuid
+  departemen   Departemen?   @relation(fields: [departemenId], references: [id])
+  departemenId String?       @db.Uuid
+  logPresensi  LogPresensi[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Departemen {
+  id        String    @id @default(uuid()) @db.Uuid
+  nama      String
+  pegawai   Pegawai[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model LogPresensi {
+  id        String  @id @default(uuid()) @db.Uuid
+  pegawai   Pegawai @relation(fields: [pegawaiId], references: [id])
+  pegawaiId String  @db.Uuid
+
+  waktuMasuk DateTime
+  latMasuk   Float
+  lngMasuk   Float
+
+  waktuPulang DateTime?
+  latPulang   Float?
+  lngPulang   Float?
+
+  createdAt DateTime @default(now())
+}
+
+model Role {
+  id    String @id @default(uuid()) @db.Uuid
+  nama  String @unique
+  users User[]
+}
