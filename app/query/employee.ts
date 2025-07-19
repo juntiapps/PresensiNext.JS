@@ -158,15 +158,19 @@ export async function updatePegawai(
 // --- DELETE Pegawai ---
 export async function deletePegawai(id: UUID) {
   try {
-    const deletedPegawai = await prisma.pegawai.delete({
-      where: { id },
-    });
+    let deletedPegawai: any;
 
-    if (deletedPegawai.userId) {
-      await prisma.user.delete({
-        where: { id: deletedPegawai.userId },
+    await prisma.$transaction(async (tx) => {
+      const deletedPegawai = await tx.pegawai.delete({
+        where: { id },
       });
-    }
+
+      if (deletedPegawai.userId) {
+        await tx.user.delete({
+          where: { id: deletedPegawai.userId },
+        });
+      }
+    });
 
     return deletedPegawai;
   } catch (error) {

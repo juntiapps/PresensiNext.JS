@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const departments = await fetchDepartments();
-  const roles = await fetchRoles();
+  // const departments = await fetchDepartments();
+  // const roles = await fetchRoles();
   return (
     <main>
       <Breadcrumbs
@@ -22,7 +22,8 @@ export default async function Page() {
           },
         ]}
       />
-      <Form departments={departments} roles={roles}/>
+      {/* <Form departments={departments} roles={roles}/> */}
+      <Form/>
     </main>
   );
 }

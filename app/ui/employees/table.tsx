@@ -1,3 +1,5 @@
+'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { jakarta } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
@@ -5,16 +7,37 @@ import {
   EmployeesTableType,
   FormattedEmployeesTable,
 } from '@/app/lib/definitions';
-import { CreateEmployee, DeleteEmployee, UpdateEmployee } from './buttons';
+import { DeleteEmployee, UpdateEmployee } from './buttons';
 import { fetchFilteredEmployees } from '@/app/lib/data';
+import { EmployeesTableSkeleton } from '../skeletons';
 
-export default async function EmployeesTable({
+export default function EmployeesTable({
   query,
 }: {
   query: any;
 }) {
-  // console.log('Employees:', employees);
-  const employees = await fetchFilteredEmployees(query);
+  // const employees = await fetchFilteredEmployees(query);
+  const [employees, setEmployees] = useState<FormattedEmployeesTable[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [action, setAction] = useState(1);
+  const loadData = async () => {
+    try {
+      const data = await fetchFilteredEmployees(query);
+      setEmployees(data);
+    } catch (err) {
+      console.error('Error loading employees:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+
+
+    loadData();
+  }, [query, action]);
+
+  if (loading) return <EmployeesTableSkeleton />;
 
   return (
     <div className="w-full">
@@ -93,7 +116,7 @@ export default async function EmployeesTable({
                       <td className="whitespace-nowrap py-3 pl-6 pr-3">
                         <div className="flex justify-end gap-3">
                           <UpdateEmployee id={employee.id} />
-                          <DeleteEmployee id={employee.id} />
+                          <DeleteEmployee id={employee.id} loadData={loadData} />
                         </div>
                       </td>
                     </tr>

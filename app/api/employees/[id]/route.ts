@@ -53,7 +53,7 @@ export async function DELETE(request: NextRequest,
         const id = (await params).id;
         const deleted = await deletePegawai(id);
 
-        return new NextResponse(null, { status: 204 });
+        return NextResponse.json({message: 'Employee deleted successfully'}, { status: 200 });
     } catch (error: any) {
         console.error(error);
         return NextResponse.json({ message: error.message || 'Failed to delete pegawai.' }, { status: 500 });

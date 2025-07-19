@@ -4,7 +4,7 @@ import { deleteEmployee } from "@/app/lib/actions";
 import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useRef, useTransition } from "react";
 
 export function UpdateEmployee({ id }: { id: string }) {
   return (
@@ -52,7 +52,7 @@ export function CreateEmployee() {
 //     </form>
 //   );
 // }
-export function DeleteEmployee({ id }: { id: string }) {
+export function DeleteEmployee({ id, loadData }: { id: string, loadData: () => void }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -64,6 +64,7 @@ export function DeleteEmployee({ id }: { id: string }) {
       try {
         await deleteEmployee(id); // ← server action yang fetch DELETE API
         router.refresh();         // ← refresh daftar employee
+        loadData()
       } catch (error) {
         console.error('Gagal menghapus:', error);
       }
@@ -71,14 +72,30 @@ export function DeleteEmployee({ id }: { id: string }) {
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleDelete}
-      disabled={isPending}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <span className="sr-only">Delete</span>
-      <TrashIcon className="w-5" />
-    </button>
+    <form onSubmit={(e) => {
+      e.preventDefault(); // mencegah form submit biasa 
+      handleDelete();
+    }}>
+      <button
+        type="button"
+        onClick={handleDelete}
+        disabled={isPending}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-5" />
+      </button>
+    </form>
+
+    // <button
+    //   type="button"
+    //   onClick={handleDelete}
+    //   disabled={isPending}
+    //   className="rounded-md border p-2 hover:bg-gray-100"
+    // >
+    //   <span className="sr-only">Delete</span>
+    //   <TrashIcon className="w-5" />
+    // </button>
   );
 }
+

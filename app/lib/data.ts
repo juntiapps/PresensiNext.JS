@@ -1,3 +1,5 @@
+'use client';
+
 import {
   EmployeeField,
   EmployeeForm,
@@ -8,7 +10,7 @@ import { UUID } from 'crypto';
 //EMPLOYEES
 export async function fetchDetailEmployee(id: UUID) {
   try {
-    const response = await fetch(process.env.BASE_URL + '/api/employees/' + id);
+    const response = await fetch('/api/employees/' + id);
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
@@ -33,7 +35,7 @@ export async function fetchDetailEmployee(id: UUID) {
 
 export async function fetchFilteredEmployees(query: string) {
   try {
-    const response = await fetch(process.env.BASE_URL + '/api/employees');
+    const response = await fetch('/api/employees');
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
@@ -56,7 +58,7 @@ export async function fetchFilteredEmployees(query: string) {
 
 export async function fetchEmployees() {
   try {
-    const response = await fetch(process.env.BASE_URL + '/api/employees');
+    const response = await fetch('/api/employees');
     if (!response.ok) {
       throw new Error('Failed to fetch employees');
     }
@@ -83,7 +85,7 @@ export async function fetchEmployees() {
 //DEPARTEMEN
 export async function fetchDepartments() {
   try {
-    const response = await fetch(process.env.BASE_URL + '/api/departments');
+    const response = await fetch('/api/departments');
     if (!response.ok) {
       throw new Error('Failed to fetch departments');
     }
@@ -99,7 +101,7 @@ export async function fetchDepartments() {
 //ROLES
 export async function fetchRoles() {
   try {
-    const response = await fetch(process.env.BASE_URL + '/api/roles');
+    const response = await fetch('/api/roles');
     if (!response.ok) {
       throw new Error('Failed to fetch roles');
     }

@@ -13,15 +13,15 @@ export default async function Page(props: { params: Promise<{ id: UUID }> }) {
   const params = await props.params;
   const id = params.id;
   // const employee = employees.find((employee: any) => employee.id === id);
-  const employee = await fetchDetailEmployee(id);
-  const departments = await fetchDepartments();
-  const roles = await fetchRoles();
+  // const employee = await fetchDetailEmployee(id);
+  // const departments = await fetchDepartments();
+  // const roles = await fetchRoles();
 
   // console.log('Employee:', employee);
 
-  if (!employee) {
-    notFound();
-  }
+  // if (!employee) {
+  //   notFound();
+  // }
 
   return (
     <main>
@@ -35,7 +35,7 @@ export default async function Page(props: { params: Promise<{ id: UUID }> }) {
           },
         ]}
       />
-      <Form employee={employee} departments={departments} roles={roles}/>
+      <Form id={id}/>
     </main>
   );
 }

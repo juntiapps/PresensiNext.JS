@@ -1,25 +1,46 @@
+'use client';
+
 import {
   UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import { jakarta } from '@/app/ui/fonts';
 import { fetchEmployees } from '@/app/lib/data';
+import { useEffect, useState } from 'react';
+import { CardsSkeleton } from '../skeletons';
 
 const iconMap = {
   employees: UserGroupIcon,
 };
 
-export default async function CardWrapper() {
-  // Simulating data fetching
-  const jumlahPegawai = await fetchEmployees(); // Replace with actual data fetching logic
+export default function CardWrapper() {
+  const [jumlahPegawai, setJumlahPegawai] = useState<any>(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchEmployees();
+        setJumlahPegawai(data.count);
+      } catch (err) {
+        console.error('Error loading employees:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (loading) return <CardsSkeleton />;
 
   return (
-    <>
+    
       <Card
         title="Jumlah Pegawai"
-        value={jumlahPegawai?.count}
+        value={jumlahPegawai}
         type="employees"
       />
-    </>
+    
   );
 }
 
