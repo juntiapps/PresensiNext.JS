@@ -66,3 +66,12 @@ model Role {
   nama  String  @unique
   users User[]
 }
+
+model OneTimePassword {
+  id        String   @id @default(uuid())
+  email     String
+  otp       String
+  expiresAt DateTime
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

@@ -27,9 +27,7 @@ export default async function Page(props: {
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <CreateEmployee />
       </div>
-      <Suspense fallback={<EmployeesTableSkeleton />}>
         <Table query={query} />
-      </Suspense>
     </div>
   );
 }

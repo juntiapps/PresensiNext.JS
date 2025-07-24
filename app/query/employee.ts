@@ -67,6 +67,8 @@ export async function getAllPegawai() {
     const count = await prisma.pegawai.count();
 
     const result = {
+      status: 1,
+      message: "Pegawai list retrieved successfully",
       count: count,
       data: pegawaiList,
     };
