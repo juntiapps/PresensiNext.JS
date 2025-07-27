@@ -1,8 +1,10 @@
-'use client';
-
+import { Metadata } from "next";
 import AcmeLogo from "../ui/acme-logo";
-import LoginForm from "../ui/login-form";
 import VerifyOtpForm from "../ui/verify-otp";
+
+export const metadata: Metadata = {
+  title: 'Verifikasi OTP',
+};
 
 export default function VerifyOtpPage() {
   return (

@@ -1,8 +1,7 @@
 // app/api/users/route.ts
 
 import { authOptions } from "@/app/lib/auth/authOptions";
-import { FormattedEmployeesTable } from "@/app/lib/definitions";
-import { createPegawai, getAllPegawai } from "@/app/query/employee";
+import { createMenu, getAllMenu, getMenuTree } from "@/app/query/menu";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,25 +14,27 @@ export async function GET() {
             { status: 401 }
         );
     }
-    const result = await getAllPegawai()
+    
+    // const result = await getAlgetlMenu()
+    const result = await getMenuTree()
 
-    return NextResponse.json(result, { status: 200 });
+    return NextResponse.json({ status: 1, message: 'success', data: result }, { status: 200 });
 }
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        const createdEmployee = await createPegawai(body)
+        const createdEmployee = await createMenu(body)
 
         return NextResponse.json(
-            { message: 'employee created successfully', data: createdEmployee },
+            { message: 'Menu created successfully', data: createdEmployee },
             { status: 201 } // Status 201 Created
         );
     } catch (error) {
-        console.error('Error creating employee:', error);
+        console.error('Error creating menu:', error);
         return NextResponse.json(
-            { message: 'Failed to create employee' },
+            { message: 'Failed to create menu' },
             { status: 500 } // Status 500 Internal Server Error
         );
     }

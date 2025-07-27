@@ -92,7 +92,7 @@ export function EmployeesTableRowSkeleton() {
 
 export function EmployeesTableSkeleton() {
   return (
-    <div className="mt-6 flow-root">
+    <div className={`mt-6 flow-root`}>
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full align-middle">
           <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
@@ -131,4 +131,27 @@ export function EmployeesTableSkeleton() {
       </div>
     </div>
   );
+}
+
+export function InputSkeleton() {
+  return (
+    <div className="mb-4">
+      <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div> {/* Label placeholder */}
+      <div className="h-10 bg-gray-200 rounded-md w-full"></div> {/* Select placeholder */}
+    </div>
+  )
+}
+
+export function FormSkeleton() {
+  return (
+    <>
+      {[1, 2, 3, 4].map((i) => (
+        <InputSkeleton key={i} />
+      ))}
+      <div className="mt-6 flex justify-end gap-4">
+        <div className="h-10 w-24 bg-gray-200 rounded-lg"></div> {/* Cancel button placeholder */}
+        <div className="h-10 w-32 bg-gray-200 rounded-lg"></div> {/* Submit button placeholder */}
+      </div>
+    </>
+  )
 }

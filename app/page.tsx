@@ -3,12 +3,20 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './lib/auth/authOptions';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
     title: 'Presensi Next.js',
 };
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  
+    if (session) {
+      redirect('/dashboard');
+    }
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-yellow-500 p-4 md:h-52">

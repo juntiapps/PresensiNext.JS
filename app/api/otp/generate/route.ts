@@ -30,9 +30,9 @@ export async function POST(request: NextRequest) {
             { status: 201 } // Status 201 Created
         );
     } catch (error) {
-        console.error('Error creating product:', error);
+        console.error('Error generate otp:', error);
         return NextResponse.json(
-            { message: 'Failed to create product' },
+            { message: 'Failed to generate otp' },
             { status: 500 } // Status 500 Internal Server Error
         );
     }

@@ -1,4 +1,4 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/app/lib/prisma";
 import bcrypt from "bcrypt";
@@ -74,10 +74,15 @@ export const
           return {
             id: user.id,
             email: user.email,
-            role: role?.nama,
+            role: role?.id,
             nama: isAdmin ? 'Admin' : pegawai?.nama,
             nip: isAdmin ? '-' : pegawai?.nip,
             departemenId: isAdmin ? '-' : pegawai?.departemenId,
+          } as User & {
+            role: string;
+            nama?: string;
+            nip?: string;
+            departemenId?: string;
           };
         },
       }),
@@ -91,12 +96,26 @@ export const
     callbacks: {
       async jwt({ token, user }) {
         if (user) {
-          token.user = user;
+          // token.user = user;
+          token.id = user.id;
+          token.email = user.email;
+          token.role = (user as any).role;
+          token.nama = (user as any).nama;
+          token.nip = (user as any).nip;
+          token.departemenId = (user as any).departemenId;
         }
         return token;
       },
       async session({ session, token }) {
-        session.user = token.user as typeof session.user;
+        // session.user = token.user as typeof session.user;
+        if (session.user) {
+          session.user.id = token.id as string;
+          session.user.email = token.email as string;
+          (session.user as any).role = token.role;
+          (session.user as any).nama = token.nama;
+          (session.user as any).nip = token.nip;
+          (session.user as any).departemenId = token.departemenId;
+        }
         return session;
       },
     },

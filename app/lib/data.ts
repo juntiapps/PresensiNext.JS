@@ -4,6 +4,10 @@ import {
   EmployeeField,
   EmployeeForm,
   FormattedEmployeesTable,
+  FormattedMenusTable,
+  LinkList,
+  MenuForm,
+  MenuTree,
 } from './definitions';
 import { UUID } from 'crypto';
 
@@ -111,5 +115,123 @@ export async function fetchRoles() {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all roles.');
+  }
+}
+
+//MENUS
+export async function fetchMenus(query?: string) {
+  try {
+    const response = await fetch('/api/menus');
+    if (!response.ok) {
+      throw new Error('Failed to fetch menus');
+    }
+    const data = await response.json();
+    // console.log(data)
+
+    const menus: FormattedMenusTable[] = data.data?.map((menu: any) => ({
+      id: menu.id,
+      name: menu.name,
+      url: menu.url,
+      parentNama: menu.parentId ? menu.parent?.name : ""
+    }));
+
+    return menus;
+
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all menus.');
+  }
+}
+
+export async function fetchDetailMenu(id: UUID) {
+  try {
+    const response = await fetch('/api/menus/' + id);
+    if (!response.ok) {
+      throw new Error('Failed to fetch menu');
+    }
+    const data = await response.json();
+
+    const menu: MenuForm = {
+      id: data.id,
+      name: data.name,
+      icon: data.icon,
+      url: data.url,
+      order: data.order,
+      parentId: data.parentId
+    };
+
+    return menu;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all employees.');
+  }
+}
+
+export async function fetchLinks(roleId: string, query?: string) {
+  try {
+    // const response = await fetch('/api/menus');
+    const response = await fetch('/api/menus/tree', {
+      method: 'POST',
+      body: JSON.stringify({ roleId: roleId }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch links');
+    }
+    const data = await response.json();
+
+    const menus: LinkList[] = data.data?.map((menu: any) => ({
+      id: menu.id,
+      name: menu.name,
+      href: menu.url,
+      icon: menu.icon,
+      hasRole: menu.hasRole,
+      children: menu.children.length > 0 ? menu.children.map((child: any) => ({
+        id: child.id,
+        name: child.name,
+        href: child.url,
+        icon: child.icon,
+        hasRole: child.hasRole,
+      })) : []
+      // parentNama: menu.parent?.name
+    }));
+
+    return menus;
+
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all links.');
+  }
+}
+
+export async function fetchMenuTree(roleId: string, query?: string) {
+  try {
+    const response = await fetch('/api/menus/tree', {
+      method: 'POST',
+      body: JSON.stringify({ roleId: roleId }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch menus');
+    }
+    const data = await response.json();
+
+    const menus: MenuTree[] = data.data?.map((menu: any) => ({
+      id: menu.id,
+      name: menu.name,
+      icon: menu.icon,
+      url: menu.url,
+      order: menu.order,
+      children: menu.children,
+      hasRole: menu.hasRole,
+    }));
+
+    // console.log(menus)
+
+    return menus;
+
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all menus.');
   }
 }

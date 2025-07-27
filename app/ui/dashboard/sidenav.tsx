@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { clearUser } from '@/app/lib/redux/features/sessionSlice';
 import { signOut } from 'next-auth/react';
 
-export default function SideNav() {
+export default function SideNav({roleId}:{roleId:string}) {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ export default function SideNav() {
         </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
+        <NavLinks roleId={roleId}/>
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         {/* <form onSubmit={}> */}
           <button onClick={handleLogout} className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-600 hover:text-red-600 md:flex-none md:justify-start md:p-2 md:px-3">

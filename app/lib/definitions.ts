@@ -52,6 +52,38 @@ export type EmployeeForm = {
   roleId: UUID;
 };
 
+export type MenuForm = {
+  id: UUID;
+  name: string;
+  icon: string;
+  url: string;
+  order: string;
+  parentId: UUID;
+};
+export type MenuField = {
+  id: UUID;
+  name: string;
+};
+
+export type MenuTree = {
+  id: string;
+  name: string;
+  icon: string;
+  url: string;
+  order: number;
+  children: MenuTree[];
+  hasRole?: boolean;
+};
+
+export type LinkList = {
+  id: UUID;
+  name: string;
+  href: string;
+  icon:string;
+  children: LinkList[];
+  hasRole?:boolean;
+};
+
 export type DepartmentField = {
   id: UUID;
   nama: string;
@@ -60,4 +92,11 @@ export type DepartmentField = {
 export type RoleField = {
   id: UUID;
   nama: string;
+};
+
+export type FormattedMenusTable = {
+  id: UUID;
+  name: string;
+  url: string;
+  parentNama: string;
 };

@@ -231,3 +231,96 @@ export async function deleteEmployee(id: string) {
 
   return await res.json();
 }
+
+//MENU
+export async function createMenu(payload: {
+  name: string;
+  icon: string;
+  url: string;
+  order: number;
+  parentId?: string | null | undefined;
+}) {
+  const res = await fetch('/api/menus', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to create menu');
+  }
+
+  return await res.json();
+}
+
+export async function updateMenu(id: string, payload: {
+  name: string;
+  icon: string;
+  url?: string | null | undefined;
+  order: number;
+  parentId?: string | null | undefined;
+}) {
+  const res = await fetch(`/api/menus/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to update menu');
+  }
+
+  return await res.json();
+}
+
+export async function deleteMenu(id: string) {
+  console.log('Deleting menu with ID:', id);
+  const res = await fetch(`/api/menus/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to delete menu');
+  }
+
+  return await res.json();
+}
+
+//MENU ROLE
+export async function addMenuRole(menuId: string, roleId: string) {
+  console.log(`Menambahkan MenuRole: menuId=${menuId}, roleId=${roleId}`);
+
+  const res = await fetch(`/api/menu-role`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ menuId, roleId }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to update menu');
+  }
+
+  return await res.json();
+}
+
+export async function deleteMenuRole(menuId: string, roleId: string) {
+  console.log(`Menghapus MenuRole: menuId=${menuId}, roleId=${roleId}`);
+
+  const res = await fetch(`/api/menu-role`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ menuId, roleId }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to update menu');
+  }
+
+  return await res.json();
+
+}
