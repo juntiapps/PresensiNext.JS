@@ -180,13 +180,13 @@ export async function fetchLinks(roleId: string, query?: string) {
     }
     const data = await response.json();
 
-    const menus: LinkList[] = data.data?.map((menu: any) => ({
+    const menus: LinkList[] = data.data?.filter((menu:any)=>menu.hasRole).map((menu: any) => ({
       id: menu.id,
       name: menu.name,
       href: menu.url,
       icon: menu.icon,
       hasRole: menu.hasRole,
-      children: menu.children.length > 0 ? menu.children.map((child: any) => ({
+      children: menu.children.length > 0 ? menu.children.filter((child:any)=>child.hasRole).map((child: any) => ({
         id: child.id,
         name: child.name,
         href: child.url,
@@ -233,5 +233,26 @@ export async function fetchMenuTree(roleId: string, query?: string) {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all menus.');
+  }
+}
+
+//CICO
+export async function fetchCiCo(nip?: string, date?: Date,) {
+  try {
+    const response = await fetch('/api/ci-co', {
+      method: 'POST',
+      body: JSON.stringify({ date, nip }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch cico today');
+    }
+    const cico = await response.json();
+
+    return cico;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch cico today.');
   }
 }

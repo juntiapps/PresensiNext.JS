@@ -100,3 +100,9 @@ export type FormattedMenusTable = {
   url: string;
   parentNama: string;
 };
+
+export type CiCo = {
+  id :UUID,
+  waktuMasuk : string,
+  waktuPulang : string
+};

@@ -24,7 +24,7 @@ import { useSelector } from 'react-redux';
 //   { name: 'Master Menu', href: '/dashboard/master-menu', icon: UserGroupIcon },
 // ];
 
-export default function NavLinks({roleId}:{roleId:string}) {
+export default function NavLinks({ roleId }: { roleId: string }) {
   const [links, setLink] = useState([] as LinkList[])
   const [loading, setLoading] = useState(false)
 
@@ -35,7 +35,6 @@ export default function NavLinks({roleId}:{roleId:string}) {
         const [par] = await Promise.all([
           fetchLinks(roleId),
         ]);
-        console.log('par', roleId,par)
         setLink(par);
       } catch (err) {
         console.error('Failed to fetch data:', err);
@@ -58,25 +57,14 @@ export default function NavLinks({roleId}:{roleId:string}) {
   }
 
   return (
-    <ul className='space-y-1'>
+    <>
       {links.map((link) => {
         // const LinkIcon = link.icon;
-        const Icon = icons[link.icon as keyof typeof icons];
         return (
-          // <Link
-          //   key={link.name}
-          //   href={link.href}
-          //   className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-yellow-600 hover:text-red-600 md:flex-none md:justify-start md:p-2 md:px-3"
-          // >
-          //   <Icon className="w-6" />
-          //   <p className="hidden md:block">{link.name}</p>
-          // </Link>
-          <div key={link.id}>
-          {link.hasRole && <MenuItem link={link} key={link.id} />}
-          </div>
+          <MenuItem link={link} key={link.id} />
         );
       })}
-    </ul>
+    </>
   );
 }
 
@@ -97,10 +85,8 @@ const MenuItem = ({ link }: { link: LinkList }) => {
   }
   const isActive = pathname === link.href && !hasChildren;
 
-  ['Master', 'Master Menu'].includes(link.name) && console.log(link.name, pathname, link.href)
-
   return (
-    <li>
+    <>
       <div
         onClick={handleClick}
         className={`
@@ -118,16 +104,15 @@ const MenuItem = ({ link }: { link: LinkList }) => {
         )}
       </div>
       {isOpen && hasChildren && (
-        <ul className="ml-4 border-l border-gray-200 pl-2">
+        <div className="ml-4 border-l border-gray-200 pl-2">
           {link.children?.map((child) => (
             <MenuItem
               key={child.id}
               link={child}
             />
           ))}
-        </ul>
+        </div>
       )}
-    </li>
-
+    </>
   )
 }

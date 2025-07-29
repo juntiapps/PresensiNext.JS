@@ -155,3 +155,18 @@ export function FormSkeleton() {
     </>
   )
 }
+
+export function SkeletonUserDashboard() {
+  return (
+    <div className="bg-white rounded-2xl shadow-md p-4 flex justify-between text-sm md:text-base animate-pulse">
+      <div>
+        <p className="text-gray-300 mb-1">Check-in</p>
+        <div className="h-4 w-20 bg-gray-200 rounded"></div>
+      </div>
+      <div>
+        <p className="text-gray-300 mb-1">Check-out</p>
+        <div className="h-4 w-20 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  )
+}

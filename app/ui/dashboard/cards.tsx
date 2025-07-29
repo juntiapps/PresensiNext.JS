@@ -4,9 +4,10 @@ import {
   UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import { jakarta } from '@/app/ui/fonts';
-import { fetchEmployees } from '@/app/lib/data';
+import { fetchCiCo, fetchEmployees } from '@/app/lib/data';
 import { useEffect, useState } from 'react';
 import { CardsSkeleton } from '../skeletons';
+import { CiCo } from '@/app/lib/definitions';
 
 const iconMap = {
   employees: UserGroupIcon,
@@ -34,13 +35,13 @@ export default function CardWrapper() {
   if (loading) return <CardsSkeleton />;
 
   return (
-    
-      <Card
-        title="Jumlah Pegawai"
-        value={jumlahPegawai}
-        type="employees"
-      />
-    
+
+    <Card
+      title="Jumlah Pegawai"
+      value={jumlahPegawai}
+      type="employees"
+    />
+
   );
 }
 
@@ -51,7 +52,7 @@ export function Card({
 }: {
   title: string;
   value: number | string;
-  type: 'employees' ;
+  type: 'employees';
 }) {
   const Icon = iconMap[type];
 
@@ -69,4 +70,20 @@ export function Card({
       </p>
     </div>
   );
+}
+
+export function PresensiCard({ ci, co }: { ci?: string, co?: string }) {
+  console.log(ci,co)
+  return (
+    <div className="bg-white rounded-2xl shadow-md p-4 flex justify-between text-sm md:text-base">
+      <div>
+        <p className="text-gray-500">Check-in</p>
+        <p className="font-semibold text-green-600">{ci}</p>
+      </div>
+      <div>
+        <p className="text-gray-500">Check-out</p>
+        <p className="font-semibold text-red-500">{co}</p>
+      </div>
+    </div>
+  )
 }
