@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-export default function PresensiButton() {
+export default function PresensiButton({ label, disabled }: { label: string, disabled: boolean }) {
     const router = useRouter();
     const handleClick = () => {
         // alert('Presensi dilakukan!')
@@ -12,9 +12,10 @@ export default function PresensiButton() {
     return (
         <button
             onClick={handleClick}
-            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-blue-700 transition"
+            className={`w-full ${disabled?(' bg-gray-300 text-gray-600'):('bg-blue-600 text-white  hover:bg-blue-700')} font-semibold py-3 rounded-xl shadow-lg transition`}
+            disabled={disabled}
         >
-            Presensi
+            {label}
         </button>
     )
 }

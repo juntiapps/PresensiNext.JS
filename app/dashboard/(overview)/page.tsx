@@ -18,7 +18,7 @@ export default async function Page() {
     // console.log(isAdmin,'admin')
     return (
         <main>
-            <h1 className={`${jakarta.className} mb-4 text-xl md:text-2xl`}>
+            <h1 className={`${jakarta.className} mb-4 ml-4 text-xl md:text-2xl`}>
                 Dashboard
             </h1>
             {isAdmin ? (<DashboardContentAdmin />) : (<DashboardContentUser nama={nama} nip={nip} today={today}/>)}

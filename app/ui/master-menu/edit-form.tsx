@@ -1,24 +1,13 @@
 'use client';
 
-import { DepartmentField, EmployeeField, EmployeeForm, MenuField, MenuForm, RoleField } from '@/app/lib/definitions';
-import {
-    AtSymbolIcon,
-    BuildingOfficeIcon,
-    CheckIcon,
-    ClockIcon,
-    CurrencyDollarIcon,
-    IdentificationIcon,
-    KeyIcon,
-    QuestionMarkCircleIcon,
-    UserCircleIcon,
-} from '@heroicons/react/24/outline';
+import { MenuField, MenuForm } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateEmployee, updateMenu, } from '@/app/lib/actions';
-import React, { useActionState, useEffect, useState } from 'react';
+import { updateMenu, } from '@/app/lib/actions';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UUID } from 'crypto';
-import { fetchDepartments, fetchDetailEmployee, fetchDetailMenu, fetchMenus, fetchRoles } from '@/app/lib/data';
+import { fetchDetailMenu, fetchMenus } from '@/app/lib/data';
 import { z } from 'zod';
 // import icons from '@/app/lib/icon';
 import * as icons from "@heroicons/react/24/outline";

@@ -37,6 +37,25 @@ export async function fetchDetailEmployee(id: UUID) {
   }
 }
 
+export async function fetchEmployeeByNip(nip: string) {
+  try {
+    const response = await fetch('/api/employee-by-nip', {
+      method: 'POST',
+      body: JSON.stringify({ nip }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch employee');
+    }
+    const _data = await response.json();
+    
+    return _data;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all employees.');
+  }
+}
+
 export async function fetchFilteredEmployees(query: string) {
   try {
     const response = await fetch('/api/employees');
@@ -180,13 +199,13 @@ export async function fetchLinks(roleId: string, query?: string) {
     }
     const data = await response.json();
 
-    const menus: LinkList[] = data.data?.filter((menu:any)=>menu.hasRole).map((menu: any) => ({
+    const menus: LinkList[] = data.data?.filter((menu: any) => menu.hasRole).map((menu: any) => ({
       id: menu.id,
       name: menu.name,
       href: menu.url,
       icon: menu.icon,
       hasRole: menu.hasRole,
-      children: menu.children.length > 0 ? menu.children.filter((child:any)=>child.hasRole).map((child: any) => ({
+      children: menu.children.length > 0 ? menu.children.filter((child: any) => child.hasRole).map((child: any) => ({
         id: child.id,
         name: child.name,
         href: child.url,
@@ -251,6 +270,43 @@ export async function fetchCiCo(nip?: string, date?: Date,) {
     const cico = await response.json();
 
     return cico;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch cico today.');
+  }
+}
+
+//LOG PRESENSI
+export async function fetchLogPresensi(nip: string, bulan: number, tahun: number) {
+  try {
+    const response = await fetch('/api/presensi/log', {
+      method: 'POST',
+      body: JSON.stringify({ nip, bulan, tahun }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch cico today');
+    }
+    const cico = await response.json();
+
+    return cico;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch cico today.');
+  }
+}
+
+export async function fetchLogPresensiById(id: UUID) {
+  try {
+    const response = await fetch('/api/presensi/log/' + id + '/detail');
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch cico today');
+    }
+    const res = await response.json();
+
+    return res;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch cico today.');

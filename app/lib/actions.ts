@@ -324,3 +324,24 @@ export async function deleteMenuRole(menuId: string, roleId: string) {
   return await res.json();
 
 }
+
+//PRESENSI
+
+export async function submitPresence(payload: {
+  nip: string;
+  lat: number;
+  lng: number;
+}) {
+  const res = await fetch('/api/presensi', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to create menu');
+  }
+
+  return await res.json();
+}

@@ -97,13 +97,13 @@ export function EmployeesTableSkeleton() {
         <div className="inline-block min-w-full align-middle">
           <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
             {/* Mobile Skeleton */}
-            <div className="md:hidden">
+            {/* <div className="md:hidden">
               {[1, 2, 3, 4, 5].map((i) => (
                 <EmployeesMobileSkeleton key={i} />))}
-            </div>
+            </div> */}
 
             {/* Desktop Skeleton */}
-            <table className="hidden min-w-full rounded-md text-gray-900 md:table">
+            <table className=" min-w-full rounded-md text-gray-900 md:table">
               <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                 <tr>
                   <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
@@ -169,4 +169,22 @@ export function SkeletonUserDashboard() {
       </div>
     </div>
   )
+}
+
+export function ProfilSkeleton() {
+  return (<div className="bg-white rounded-2xl shadow-md p-6 text-center animate-pulse">
+    {/* Nama dan Email */}
+    <div className="h-5 bg-gray-200 rounded w-1/2 mx-auto mb-2"></div>
+    <div className="h-4 bg-gray-200 rounded w-1/3 mx-auto mb-6"></div>
+
+    {/* Detail info */}
+    <div className="space-y-3 text-left mb-6">
+      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+      <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+    </div>
+
+    {/* Tombol */}
+    <div className="h-10 bg-gray-300 rounded-lg w-full"></div>
+  </div>)
 }

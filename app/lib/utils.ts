@@ -67,3 +67,9 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const getTime = (dateTime: string) => {
+    const date = new Date(dateTime)
+    // Ambil jam:menit:detik
+    return date.toTimeString().split(' ')[0]
+}

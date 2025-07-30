@@ -1,19 +1,15 @@
 import { authOptions } from "@/app/lib/auth/authOptions";
 import PresensiPage from "@/app/ui/presensi/content";
+import ProfilePage from "@/app/ui/profil/content";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: 'Presensi',
+  title: 'Profil',
 };
 
-export default async function Page(props: {
-  searchParams?: Promise<{
-    query?: string;
-    page?: string;
-  }>;
-}) {
+export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -22,12 +18,9 @@ export default async function Page(props: {
 
   const nip = session?.user.nip
 
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || '';
-
   return (
     <div className="w-full">
-      <PresensiPage nip={nip} />
+      <ProfilePage nip={nip} />
     </div>
   );
 }

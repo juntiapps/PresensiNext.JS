@@ -185,3 +185,36 @@ export async function deletePegawai(id: UUID) {
     throw new Error('Failed to delete pegawai.');
   }
 }
+
+export async function getPegawaiByNip(nip: string) {
+  try {
+    const pegawai = await prisma.pegawai.findUnique({
+      where: { nip },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            role: {
+              select: {
+                id: true,
+                nama: true,
+              }
+            },
+          },
+        },
+        departemen: {
+          select: {
+            id: true,
+            nama: true,
+          },
+        },
+      },
+    });
+    
+    return pegawai;
+  } catch (error) {
+    console.error(`Error fetching pegawai with NIP ${nip}:`, error);
+    throw new Error('Failed to retrieve pegawai.');
+  }
+}

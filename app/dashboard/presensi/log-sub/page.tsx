@@ -27,7 +27,7 @@ export default async function Page(props: {
 
   return (
     <div className="w-full">
-      <PresensiPage nip={nip} />
+      LOG PEGAWAI DEPARTEMEN : XXX
     </div>
   );
 }

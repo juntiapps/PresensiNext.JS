@@ -79,9 +79,9 @@ export type LinkList = {
   id: UUID;
   name: string;
   href: string;
-  icon:string;
+  icon: string;
   children: LinkList[];
-  hasRole?:boolean;
+  hasRole?: boolean;
 };
 
 export type DepartmentField = {
@@ -102,7 +102,34 @@ export type FormattedMenusTable = {
 };
 
 export type CiCo = {
-  id :UUID,
-  waktuMasuk : string,
-  waktuPulang : string
+  id: UUID,
+  waktuMasuk: string,
+  waktuPulang: string
 };
+
+export type PresenceForm = {
+  nip: string,
+  lat: number,
+  lng: number,
+};
+
+export type FormattedLogPresensiTable = {
+  id: string,
+  tanggal: string,
+  nama?: string,
+  waktuMasuk: string,
+  waktuPulang: string,
+}
+
+export type Position = {
+  lat: number,
+  lng: number
+}
+
+export type LokasiLogPresensiTable = {
+  id: string,
+  latMasuk: number | null,
+  lngMasuk: number | null,
+  latPulang: number | null,
+  lngPulang: number | null,
+}

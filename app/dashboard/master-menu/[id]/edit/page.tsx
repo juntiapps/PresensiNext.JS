@@ -6,7 +6,7 @@ import { fetchDepartments, fetchDetailEmployee, fetchRoles } from '@/app/lib/dat
 import { UUID } from 'crypto';
 
 export const metadata: Metadata = {
-  title: 'Edit Pegawai',
+  title: 'Edit Menu',
 };
 
 export default async function Page(props: { params: Promise<{ id: UUID }> }) {

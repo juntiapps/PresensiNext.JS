@@ -73,7 +73,7 @@ export function Card({
 }
 
 export function PresensiCard({ ci, co }: { ci?: string, co?: string }) {
-  console.log(ci,co)
+  // console.log(ci,co)
   return (
     <div className="bg-white rounded-2xl shadow-md p-4 flex justify-between text-sm md:text-base">
       <div>
