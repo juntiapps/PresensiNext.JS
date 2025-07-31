@@ -34,11 +34,7 @@ export default function LokasiPresensiPage({ id }: { id: UUID }) {
             const res = await fetchLogPresensiById(id);
             const data = res.data
             setPosition1([data.latMasuk, data.lngMasuk])
-            if (data.latPulang == null && data.lngPulang == null) {
-                setPosition2(null)
-            } else {
-                setPosition2([data.latPulang, data.lngPulang])
-            }
+            setPosition2([data.latPulang, data.lngPulang])
         } catch (err) {
             console.error('Error loading employees:', err);
         } finally {
@@ -78,13 +74,13 @@ export default function LokasiPresensiPage({ id }: { id: UUID }) {
                 </MapContainer>
             ) : (
                 <div className="flex items-center justify-center h-full text-gray-500">
-                    🔄 tidak ada data...
+                    🔄 Mendapatkan lokasi pulang...
                 </div>
             )}
             <h1 className="text-gray-700 my-5">Lokasi Masuk</h1>
 
-            {position2 ? (
-                <MapContainer
+            {position2 ? (<>
+                {position2[0] != null ? (<MapContainer
                     center={position2}
                     zoom={16}
                     scrollWheelZoom={true}
@@ -100,7 +96,11 @@ export default function LokasiPresensiPage({ id }: { id: UUID }) {
                             Lat: {position2[0].toFixed(5)}, Lng: {position2[1].toFixed(5)}
                         </Popup>
                     </Marker>
-                </MapContainer>
+                </MapContainer>) : (<div className="flex items-center justify-center h-full text-gray-500 bg-gray-100 py-10">
+                    Tidak Ada Data
+                </div>)}
+            </>
+
             ) : (
                 <div className="flex items-center justify-center h-full text-gray-500">
                     🔄 Mendapatkan lokasi pulang...

@@ -103,7 +103,7 @@ export default function Form({
                                 id="nama"
                                 name="nama"
                                 type="text"
-                                defaultValue={employee.nama}
+                                value={employee.nama||''}
                                 placeholder="Masukkan Nama Pegawai"
                                 onChange={handleChange}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -127,7 +127,7 @@ export default function Form({
                                 id="nip"
                                 name="nip"
                                 type="text"
-                                defaultValue={employee.nip}
+                                value={employee.nip||""}
                                 placeholder="Masukkan NIP"
                                 onChange={handleChange}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -151,7 +151,7 @@ export default function Form({
                                 id="email"
                                 name="email"
                                 type="email"
-                                defaultValue={employee.email}
+                                value={employee.email||''}
                                 placeholder="Masukkan Email Pegawai"
                                 onChange={handleChange}
                                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -175,7 +175,7 @@ export default function Form({
                                 id="department"
                                 name="departemenId"
                                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                defaultValue={employee.departemenId}
+                                value={employee.departemenId}
                                 onChange={handleChange}
                                 aria-describedby="department-error"
                             >
@@ -206,7 +206,7 @@ export default function Form({
                                 id="role"
                                 name="roleId"
                                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                defaultValue={employee.roleId}
+                                value={employee.roleId}
                                 onChange={handleChange}
                                 aria-describedby="role-error"
                             >
@@ -227,7 +227,7 @@ export default function Form({
                     )}
                 </div>
                 {/* Default Password */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                     <label htmlFor="password" className="mb-2 block text-sm font-medium">
                         Default Password
                     </label>
@@ -250,7 +250,7 @@ export default function Form({
                     {errors.passsword && (
                         <p className="mt-2 text-sm text-red-500">{errors.passsword}</p>
                     )}
-                </div>
+                </div> */}
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <Link

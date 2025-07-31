@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { useRouter } from 'next/navigation';
-import { ChevronLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { z } from 'zod';
 import { PresenceForm } from '@/app/lib/definitions';
 import { submitPresence } from '@/app/lib/actions';
 import Loader from '../loader';
+import { Button } from '../button';
 
 // Custom icon agar tidak error saat rendering marker
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -31,10 +32,10 @@ export const PresenceSchema = z.object({
 export default function PresensiPage({ nip }: { nip: string }) {
     const router = useRouter()
     const [position, setPosition] = useState<[number, number] | null>(null);
-    const [loading,setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
-        if (!navigator.geolocation && typeof window === "undefined" ) {
+        if (!navigator.geolocation && typeof window === "undefined") {
             alert('Geolocation tidak didukung browser ini');
             return;
         }
@@ -123,7 +124,7 @@ export default function PresensiPage({ nip }: { nip: string }) {
                     🔄 Mendapatkan lokasi...
                 </div>
             )}
-            <div className="p-4 border-t bg-white space-y-2">
+            {/* <div className="p-4 border-t bg-white space-y-2">
                 <button
                     className="w-full py-3 text-lg bg-green-600 text-white rounded-xl hover:bg-green-700 transition"
                     onClick={handlePresensi}
@@ -131,6 +132,15 @@ export default function PresensiPage({ nip }: { nip: string }) {
                 >
                     ✅ Submit Presensi <Loader loading={loading}/>
                 </button>
+            </div> */}
+            <div className="p-4 border-t bg-white space-y-2">
+                <Button className="mt-4 w-full text-lg" type="submit" disabled={loading} onClick={handlePresensi}>
+                    {loading ? (<>
+                        Loading... <Loader loading={loading} />
+                    </>) : (<>
+                        Submit Presensi <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+                    </>)}
+                </Button>
             </div>
         </div>
     );

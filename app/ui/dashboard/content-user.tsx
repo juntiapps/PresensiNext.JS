@@ -11,7 +11,7 @@ import { getTime } from "@/app/lib/utils";
 export default function DashboardContent({ nama, nip, today }: { nama?: string, nip?: string, today?: Date }) {
     const [data, setData] = useState({} as CiCo)
     const [loading, setLoading] = useState<boolean>(false)
-    const [label,setLabel] = useState<string>('');
+    const [label, setLabel] = useState<string>('');
 
     useEffect(() => {
         loadData();
@@ -21,9 +21,12 @@ export default function DashboardContent({ nama, nip, today }: { nama?: string, 
         setLoading(true)
         try {
             const data = await fetchCiCo(nip, today);
-            setData(data.data);
+            console.log(data)
+            if (data.status == 1 && data.data != null) {
+                setData(data.data);
+            }
             setStatus(data.data)
-            // console.log(data.data)
+
         } catch (err) {
             console.error('Error loading cico:', err);
         } finally {
@@ -32,9 +35,9 @@ export default function DashboardContent({ nama, nip, today }: { nama?: string, 
     };
 
     const setStatus = (data: CiCo) => {
-        if(data.waktuMasuk==null){
+        if (data?.waktuMasuk == null) {
             setLabel('Presensi Masuk')
-        } else if(data.waktuPulang==null) {
+        } else if (data?.waktuPulang == null) {
             setLabel('Presensi Pulang')
         } else {
             setLabel('Presensi')
@@ -51,7 +54,7 @@ export default function DashboardContent({ nama, nip, today }: { nama?: string, 
                     co={getTime(data?.waktuPulang) == 'Invalid' ? "-" : data?.waktuPulang == null ? "-" : getTime(data?.waktuPulang)}
                 />)}
             <div className="mt-6">
-                <PresensiButton label={label} disabled={data.waktuPulang!=null}/>
+                <PresensiButton label={label} disabled={data.waktuPulang != null} />
             </div>
         </div>
     )
