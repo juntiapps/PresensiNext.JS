@@ -1,24 +1,7 @@
-// app/api/users/route.ts
-
 import { authOptions } from "@/app/lib/auth/authOptions";
-import { createPeran, getAllPeran } from "@/app/query/roles";
+import { resetPwdUsr } from "@/app/query/employee";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-
-export async function GET() {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        return NextResponse.json(
-            { status: 0, message: "Unauthorized" },
-            { status: 401 }
-        );
-    }
-
-    const result = await getAllPeran()
-
-    return NextResponse.json(result, { status: 200 });
-}
 
 export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
@@ -33,16 +16,18 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        const createdPeran = await createPeran(body)
+        const {id, passwordBaru} = body
+
+        const resetPass = await resetPwdUsr(id, passwordBaru)
 
         return NextResponse.json(
-            { message: 'peran created successfully', data: createdPeran },
+            { message: 'password resetted successfully', data: resetPass },
             { status: 201 } // Status 201 Created
         );
     } catch (error) {
-        console.error('Error creating peran:', error);
+        console.error('Error resetting password:', error);
         return NextResponse.json(
-            { message: 'Failed to create v' },
+            { message: 'Failed to reset password' },
             { status: 500 } // Status 500 Internal Server Error
         );
     }

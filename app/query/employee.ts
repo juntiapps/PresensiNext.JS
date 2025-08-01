@@ -211,10 +211,70 @@ export async function getPegawaiByNip(nip: string) {
         },
       },
     });
-    
+
     return pegawai;
   } catch (error) {
     console.error(`Error fetching pegawai with NIP ${nip}:`, error);
+    throw new Error('Failed to retrieve pegawai.');
+  }
+}
+
+export async function resetPwd(id: UUID) {
+  try {
+    const passwordHash = await bcrypt.hash('password123', 10)
+    const pegawai = await prisma.pegawai.findUnique({
+      where: { id },
+      select: {
+        userId: true, // Cukup ambil userId saja, tidak perlu include seluruh objek user
+      },
+    });
+
+    if (!pegawai || !pegawai.userId) {
+      throw new Error('Failed to retrieve pegawai.');
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: pegawai.userId,
+      },
+      data: {
+        password: passwordHash,
+      },
+    });
+
+    return updatedUser;
+  } catch (error) {
+    console.error(`Error fetching pegawai with NIP ${id}:`, error);
+    throw new Error('Failed to retrieve pegawai.');
+  }
+}
+
+export async function resetPwdUsr(id: UUID, passwordBaru: string) {
+  try {
+    const passwordHash = await bcrypt.hash(passwordBaru, 10)
+    const pegawai = await prisma.pegawai.findUnique({
+      where: { id },
+      select: {
+        userId: true, // Cukup ambil userId saja, tidak perlu include seluruh objek user
+      },
+    });
+
+    if (!pegawai || !pegawai.userId) {
+      throw new Error('Failed to retrieve pegawai.');
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: pegawai.userId,
+      },
+      data: {
+        password: passwordHash,
+      },
+    });
+
+    return updatedUser;
+  } catch (error) {
+    console.error(`Error fetching pegawai with NIP ${id}:`, error);
     throw new Error('Failed to retrieve pegawai.');
   }
 }

@@ -7,7 +7,7 @@ import {
   EmployeesTableType,
   FormattedEmployeesTable,
 } from '@/app/lib/definitions';
-import { DeleteEmployee, UpdateEmployee } from './buttons';
+import { DeleteEmployee, ResetPassword, UpdateEmployee } from './buttons';
 import { fetchFilteredEmployees } from '@/app/lib/data';
 import { EmployeesTableSkeleton } from '../skeletons';
 
@@ -20,7 +20,9 @@ export default function EmployeesTable({
   const [employees, setEmployees] = useState<FormattedEmployeesTable[]>([]);
   const [loading, setLoading] = useState(true);
   const [action, setAction] = useState(1);
+  
   const loadData = async () => {
+    setLoading(true)
     try {
       const data = await fetchFilteredEmployees(query);
       setEmployees(data);
@@ -117,6 +119,7 @@ export default function EmployeesTable({
                         <div className="flex justify-end gap-3">
                           <UpdateEmployee id={employee.id} />
                           <DeleteEmployee id={employee.id} loadData={loadData} />
+                          <ResetPassword id={employee.id} loadData={loadData} />
                         </div>
                       </td>
                     </tr>

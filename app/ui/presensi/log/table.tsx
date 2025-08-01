@@ -109,6 +109,9 @@ export default function LogTable({
                                         <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                                             Tanggal
                                         </th>
+                                        {nip=="-" && (<th scope="col" className="px-3 py-5 font-medium">
+                                            Nama
+                                        </th>)}
                                         <th scope="col" className="px-3 py-5 font-medium">
                                             Masuk
                                         </th>
@@ -129,6 +132,11 @@ export default function LogTable({
                                                     <p>{log.tanggal}</p>
                                                 </div>
                                             </td>
+                                            {nip=="-" && (
+                                                <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                                                {log?.nama}
+                                            </td>
+                                            )}
                                             <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                                                 {getTime(log?.waktuMasuk) == 'Invalid' ? "-" : getTime(log?.waktuMasuk)}
                                             </td>

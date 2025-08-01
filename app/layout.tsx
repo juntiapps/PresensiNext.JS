@@ -5,7 +5,6 @@ import { jakarta } from '@/app/ui/fonts'
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { store } from "@/app/lib/redux/store";
-import { use } from 'react';
 
 export default function RootLayout({
   children,

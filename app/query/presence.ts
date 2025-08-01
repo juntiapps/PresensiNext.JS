@@ -95,15 +95,17 @@ export async function createPresensi(data: {
 }
 
 export async function getLogPresensi(nip: string, bulan: number, tahun: number) {
+    console.log(nip)
     try {
         const startDate = new Date(tahun, bulan - 1, 1); // bulan - 1 karena index 0 (Januari = 0)
         const endDate = new Date(tahun, bulan, 1); // bulan berikutnya
 
         const result = await prisma.logPresensi.findMany({
             where: {
-                pegawai: {
-                    nip: nip,
-                },
+                // pegawai: {
+                //     nip: nip,
+                // },
+                pegawai: nip !== '-' ? { nip: nip } : undefined,
                 waktuMasuk: {
                     gte: startDate,
                     lt: endDate,

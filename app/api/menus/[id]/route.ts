@@ -1,11 +1,21 @@
 // app/api/users/route.ts
 
+import { authOptions } from "@/app/lib/auth/authOptions";
 import { deleteMenu, getMenuById, updateMenu } from "@/app/query/menu";
 import { UUID } from "crypto";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest,
     { params }: { params: Promise<{ id: UUID }> }) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return NextResponse.json(
+            { status: 0, message: "Unauthorized" },
+            { status: 401 }
+        );
+    }
     try {
         const id = (await params).id;
         const result = await getMenuById(id);
@@ -53,7 +63,7 @@ export async function DELETE(request: NextRequest,
         const id = (await params).id;
         const deleted = await deleteMenu(id);
 
-        return NextResponse.json({message: 'Menu deleted successfully'}, { status: 200 });
+        return NextResponse.json({ message: 'Menu deleted successfully' }, { status: 200 });
     } catch (error: any) {
         console.error(error);
         return NextResponse.json({ message: error.message || 'Failed to delete menu.' }, { status: 500 });

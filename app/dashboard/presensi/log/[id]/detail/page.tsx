@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: UUID }> }) {
     const session = await getServerSession(authOptions);
 
-    if (!session) {
-        redirect('/login');
-    }
+    // if (!session) {
+    //     redirect('/login');
+    // }
 
     const params = await props.params;
     const id = params.id;

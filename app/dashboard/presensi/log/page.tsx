@@ -9,22 +9,17 @@ export const metadata: Metadata = {
     title: 'Log Presensi',
 };
 
-export default async function Page(props: {
-    searchParams?: Promise<{
-        query?: string;
-        page?: string;
-    }>;
-}) {
+export default async function Page() {
     const session = await getServerSession(authOptions);
 
-    if (!session) {
-        redirect('/login');
-    }
+    // if (!session) {
+    //     redirect('/login');
+    // }
 
-    const nip = session?.user.nip
+    const nip = session? session?.user.nip:""
 
-    const searchParams = await props.searchParams;
-    const query = searchParams?.query || '';
+    // const searchParams = await props.searchParams;
+    // const query = searchParams?.query || '';
 
     return (
         <div className="w-full p-4">
@@ -32,7 +27,7 @@ export default async function Page(props: {
             <div className="flex w-full items-center justify-between pb-2">
                 <h1 className={`${jakarta.className} text-2xl`}>Log Presensi</h1>
             </div>
-            <LogTable nip={session?.user.nip} />
+            <LogTable nip={nip} />
         </div>
     );
 }

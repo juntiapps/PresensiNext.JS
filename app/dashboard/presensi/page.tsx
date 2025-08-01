@@ -8,22 +8,17 @@ export const metadata: Metadata = {
   title: 'Presensi',
 };
 
-export default async function Page(props: {
-  searchParams?: Promise<{
-    query?: string;
-    page?: string;
-  }>;
-}) {
+export default async function Page() {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect('/login');
-  }
+  // if (!session) {
+  //   redirect('/login');
+  // }
 
-  const nip = session?.user.nip
+  const nip = session? session?.user.nip:''
 
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || '';
+  // const searchParams = await props.searchParams;
+  // const query = searchParams?.query || '';
 
   return (
     <div className="w-full">

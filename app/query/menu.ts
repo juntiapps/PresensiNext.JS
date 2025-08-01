@@ -10,7 +10,7 @@ export async function createMenu(data: {
   order: number;
   parentId?: string | null | undefined;
 }) {
-  console.log(data)
+  // console.log(data)
   try {
     const newMenu = await prisma.menu.create({
       data

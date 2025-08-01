@@ -1,10 +1,20 @@
+import { authOptions } from "@/app/lib/auth/authOptions";
 import { getLogPresensiById } from "@/app/query/presence";
 import { UUID } from "crypto";
+import { getServerSession } from "next-auth";
 import { M_PLUS_1 } from "next/font/google";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest,
     { params }: { params: Promise<{ id: UUID }> }) {
+        const session = await getServerSession(authOptions);
+        
+            if (!session) {
+                return NextResponse.json(
+                    { status: 0, message: "Unauthorized" },
+                    { status: 401 }
+                );
+            }
     try {
         const id = (await params).id;
         const result = await getLogPresensiById(id);

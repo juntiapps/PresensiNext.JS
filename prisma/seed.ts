@@ -6,9 +6,8 @@ const prisma = new PrismaClient()
 
 async function main() {
     // 1. Buat Role
-    const [adminRole, atasanRole, pegawaiRole] = await Promise.all([
+    const [adminRole, pegawaiRole] = await Promise.all([
         prisma.role.upsert({ where: { nama: 'admin' }, update: {}, create: { nama: 'admin' } }),
-        prisma.role.upsert({ where: { nama: 'atasan' }, update: {}, create: { nama: 'atasan' } }),
         prisma.role.upsert({ where: { nama: 'pegawai' }, update: {}, create: { nama: 'pegawai' } }),
     ])
 
@@ -23,19 +22,12 @@ async function main() {
     const passwordHash = await bcrypt.hash('password123', 10)
 
     // 4. Buat User
-    const [adminUser, atasanUser, pegawaiUser1, pegawaiUser2, pegawaiUser3] = await Promise.all([
+    const [adminUser, pegawaiUser1, pegawaiUser2, pegawaiUser3] = await Promise.all([
         prisma.user.create({
             data: {
                 email: 'admin@example.com',
                 password: passwordHash,
                 roleId: adminRole.id,
-            },
-        }),
-        prisma.user.create({
-            data: {
-                email: 'atasan@example.com',
-                password: passwordHash,
-                roleId: atasanRole.id,
             },
         }),
         prisma.user.create({
@@ -91,7 +83,7 @@ async function main() {
 
     // 6. Buat Log Presensi Masuk + Pulang
     const now = new Date()
-    const twoHoursLater = new Date(now.getTime() + 2 * 60 * 60 * 1000)
+    const twoHoursLater = new Date(now.getTime() + 8 * 60 * 60 * 1000)
 
     await Promise.all([
         prisma.logPresensi.create({
@@ -128,6 +120,86 @@ async function main() {
             },
         }),
     ])
+
+    //7. Generate menu
+    const [hom, peg, mas, log, prof] = await Promise.all([
+        prisma.menu.create({
+            data: {
+                name: 'Home',
+                icon: 'HomeIcon',
+                url: '/dashboard',
+                parentId: null,
+                order: 1
+            },
+        }),
+        prisma.menu.create({
+            data: {
+                name: 'Daftar Pegawai',
+                icon: 'UserGroupIcon',
+                url: '/dashboard/employees',
+                parentId: null,
+                order: 2
+            },
+        }),
+        prisma.menu.create({
+            data: {
+                name: 'Master',
+                icon: 'Bars3Icon',
+                url: '/dashboard/master',
+                order: 3
+            },
+        }),
+        prisma.menu.create({
+            data: {
+                name: 'Log Presensi',
+                icon: 'CheckBadgeIcon',
+                url: '/dashboard/presensi/log',
+                parentId: null,
+                order: 4
+            },
+        }),
+        prisma.menu.create({
+            data: {
+                name: 'Profil',
+                icon: 'UserCircleIcon',
+                url: '/dashboard/profile',
+                parentId: null,
+                order: 2
+            },
+        }),
+    ])
+
+    const [mas_menu] = await Promise.all([
+        prisma.menu.create({
+            data: {
+                name: 'Master Menu',
+                icon: 'CubeIcon',
+                url: '/dashboard/master-menu',
+                parentId: mas.id,
+                order: 3
+            },
+        }),
+    ])
+    //8. Generate Menu Role
+
+    const menuRoles = [
+        // Hak Akses untuk Role Admin (akses semua menu kecuali Profil)
+        { menuId: hom.id, roleId: adminRole.id }, // Home
+        { menuId: peg.id, roleId: adminRole.id }, // Daftar Pegawai
+        { menuId: mas.id, roleId: adminRole.id }, // Master
+        { menuId: mas_menu.id, roleId: adminRole.id }, // Master Menu
+        { menuId: log.id, roleId: adminRole.id }, // Log Presensi
+
+        // Hak Akses untuk Role Pegawai (Home, Profil, Log Presensi)
+        { menuId: hom.id, roleId: pegawaiRole.id }, // Home
+        { menuId: log.id, roleId: pegawaiRole.id }, // Log Presensi
+        { menuId: prof.id, roleId: pegawaiRole.id }, // Profil
+    ];
+
+    await prisma.menuRole.createMany({
+        data: menuRoles,
+        skipDuplicates: true,
+    });
 
     console.log('✅ Seeder lengkap berhasil: 3 role, 3 user, 3 pegawai, 3 presensi.')
 }

@@ -21,7 +21,6 @@ export default function DashboardContent({ nama, nip, today }: { nama?: string, 
         setLoading(true)
         try {
             const data = await fetchCiCo(nip, today);
-            console.log(data)
             if (data.status == 1 && data.data != null) {
                 setData(data.data);
             }

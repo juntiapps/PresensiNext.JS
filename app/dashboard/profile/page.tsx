@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    redirect('/login');
-  }
+  // if (!session) {
+  //   redirect('/login');
+  // }
 
-  const nip = session?.user.nip
+  const nip = session ? session?.user.nip : ""
 
   return (
     <div className="w-full">

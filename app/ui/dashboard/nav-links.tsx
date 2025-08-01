@@ -1,20 +1,11 @@
 'use client';
 
-import { fetchLinks, fetchMenus } from '@/app/lib/data';
+import { fetchLinks } from '@/app/lib/data';
 import { LinkList } from '@/app/lib/definitions';
-import { RootState } from '@/app/lib/redux/store';
 // import icons from '@/app/lib/icon';
 import * as icons from "@heroicons/react/24/outline";
-import {
-  UserGroupIcon,
-  HomeIcon,
-  DocumentDuplicateIcon,
-} from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.

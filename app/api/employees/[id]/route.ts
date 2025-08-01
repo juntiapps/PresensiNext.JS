@@ -1,11 +1,21 @@
 // app/api/users/route.ts
 
+import { authOptions } from "@/app/lib/auth/authOptions";
 import { deletePegawai, getPegawaiById, updatePegawai } from "@/app/query/employee";
 import { UUID } from "crypto";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest,
     { params }: { params: Promise<{ id: UUID }> }) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return NextResponse.json(
+            { status: 0, message: "Unauthorized" },
+            { status: 401 }
+        );
+    }
     try {
         const id = (await params).id;
         const result = await getPegawaiById(id);
@@ -53,7 +63,7 @@ export async function DELETE(request: NextRequest,
         const id = (await params).id;
         const deleted = await deletePegawai(id);
 
-        return NextResponse.json({message: 'Employee deleted successfully'}, { status: 200 });
+        return NextResponse.json({ message: 'Employee deleted successfully' }, { status: 200 });
     } catch (error: any) {
         console.error(error);
         return NextResponse.json({ message: error.message || 'Failed to delete pegawai.' }, { status: 500 });

@@ -1,9 +1,19 @@
 // app/api/users/route.ts
 
+import { authOptions } from "@/app/lib/auth/authOptions";
 import { createDepartemen, getAllDepartemen } from "@/app/query/department";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return NextResponse.json(
+            { status: 0, message: "Unauthorized" },
+            { status: 401 }
+        );
+    }
     const result = await getAllDepartemen()
 
     return NextResponse.json(result, { status: 200 });

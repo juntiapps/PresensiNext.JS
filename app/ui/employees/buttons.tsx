@@ -1,7 +1,7 @@
 'use client';
 
-import { deleteEmployee } from "@/app/lib/actions";
-import { PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { deleteEmployee, resetPassword } from "@/app/lib/actions";
+import { ArrowPathIcon, PencilIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useTransition } from "react";
@@ -96,6 +96,43 @@ export function DeleteEmployee({ id, loadData }: { id: string, loadData: () => v
     //   <span className="sr-only">Delete</span>
     //   <TrashIcon className="w-5" />
     // </button>
+  );
+}
+
+export function ResetPassword({ id, loadData }: { id: string, loadData: () => void }) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const handleReset = () => {
+    const confirmed = window.confirm('Yakin ingin mereset password pegawai ini?');
+    if (!confirmed) return;
+
+    startTransition(async () => {
+      try {
+        await resetPassword(id); // ← server action yang fetch DELETE API
+        router.refresh();         // ← refresh daftar employee
+        loadData()
+      } catch (error) {
+        console.error('Gagal menghapus:', error);
+      }
+    });
+  };
+
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault(); // mencegah form submit biasa 
+      handleReset();
+    }}>
+      <button
+        type="button"
+        onClick={handleReset}
+        disabled={isPending}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+        <span className="sr-only">Delete</span>
+        <ArrowPathIcon className="w-5" />
+      </button>
+    </form>
   );
 }
 

@@ -219,7 +219,7 @@ export async function updateEmployee(id: string, payload: {
 }
 
 export async function deleteEmployee(id: string) {
-  console.log('Deleting employee with ID:', id);
+  // console.log('Deleting employee with ID:', id);
   const res = await fetch(`/api/employees/${id}`, {
     method: 'DELETE',
   });
@@ -227,6 +227,36 @@ export async function deleteEmployee(id: string) {
   if (!res.ok) {
     const err = await res.json();
     throw new Error(err.message || 'Failed to delete employee');
+  }
+
+  return await res.json();
+}
+
+export async function resetPassword(id: string) {
+  // console.log('Deleting employee with ID:', id);
+  const res = await fetch(`/api/reset-password/${id}`, {
+    method: 'GET',
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to reset password employee');
+  }
+
+  return await res.json();
+}
+
+export async function resetPasswordUser(id: string, passwordBaru: string) {
+  // console.log('Deleting employee with ID:', id);
+  const res = await fetch(`/api/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id, passwordBaru }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to reset password employee');
   }
 
   return await res.json();
@@ -276,7 +306,7 @@ export async function updateMenu(id: string, payload: {
 }
 
 export async function deleteMenu(id: string) {
-  console.log('Deleting menu with ID:', id);
+  // console.log('Deleting menu with ID:', id);
   const res = await fetch(`/api/menus/${id}`, {
     method: 'DELETE',
   });
@@ -291,7 +321,7 @@ export async function deleteMenu(id: string) {
 
 //MENU ROLE
 export async function addMenuRole(menuId: string, roleId: string) {
-  console.log(`Menambahkan MenuRole: menuId=${menuId}, roleId=${roleId}`);
+  // console.log(`Menambahkan MenuRole: menuId=${menuId}, roleId=${roleId}`);
 
   const res = await fetch(`/api/menu-role`, {
     method: 'POST',
@@ -308,7 +338,7 @@ export async function addMenuRole(menuId: string, roleId: string) {
 }
 
 export async function deleteMenuRole(menuId: string, roleId: string) {
-  console.log(`Menghapus MenuRole: menuId=${menuId}, roleId=${roleId}`);
+  // console.log(`Menghapus MenuRole: menuId=${menuId}, roleId=${roleId}`);
 
   const res = await fetch(`/api/menu-role`, {
     method: 'DELETE',

@@ -14,15 +14,9 @@ export default function SideNav({ roleId }: { roleId: string }) {
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
-    const confirmed = window.confirm('Yakin ingin untuk keluar dari aplikasi?');
-    if (!confirmed) return;
-
     dispatch(clearUser());
+    router.push('/api/auth/signout')
 
-    await signOut({ redirect: false });
-     router.refresh();
-    // router.push('/login');
-    router.push('/login');
   };
 
 
