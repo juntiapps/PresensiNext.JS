@@ -16,7 +16,7 @@
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
-    "next": "latest",
+    "next": "15.3.8",
     "next-auth": "^4.24.11",
     "nodemailer": "^7.0.5",
     "postcss": "8.5.1",

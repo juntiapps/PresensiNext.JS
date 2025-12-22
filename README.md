@@ -82,3 +82,5 @@ MIT
    [nodemailer]: <https://nodemailer.com/>
   
    [prisma]: <https://www.prisma.io/>
+
+## Note: react2shell CVE fixed
